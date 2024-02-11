@@ -12,12 +12,9 @@ sleep 5
 
 RESPONSE=$(curl -s http://localhost)
 
-STATUS_CODE=$(curl -LI http://localhost | grep -i http | awk '{print $2}')
-if [ $STATUS_CODE -eq 200 ]; then
-  echo "Success! Got 200 response from local server"
-  exit 0
-else
-  echo "Failed! Expected 200 response, got $STATUS_CODE" 
+STATUS_CODE=$(echo $RESPONSE | grep -i http | awk '{print $2}')
+if [ $STATUS_CODE -ne 200 ]; then
+  echo "Failed! Expected 200 response, got $STATUS_CODE"
   exit 1
 fi
 
