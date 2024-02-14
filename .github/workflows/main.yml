@@ -58,7 +58,7 @@ jobs:
         username: ${{ SSH_USERNAME }}
         key: ${{ SSH_PRIVATE_KEY }} 
         source: "build"
-        target: "//ubuntu"
+        target: "/home/ubuntu"
 
     - name: Ssh into the server
       uses: appleboy/ssh-action@master
