@@ -31,11 +31,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Download artifact
         uses: actions/download-artifact@v3
         with: 
@@ -44,3 +40,32 @@ jobs:
 
       - name: Run Shell script for testing
         run: sh test.sh
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with: 
+        name: react-app
+        path: build
+        
+    - name: Copy files to server  
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ SSH_HOST }}
+        username: ${{ SSH_USERNAME }}
+        key: ${{ SSH_PRIVATE_KEY }} 
+        source: "build"
+        target: "/home/ubuntu"
+
+    - name: Ssh into the server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ SSH_HOST }}
+        username: ${{ SSH_USERNAME }}
+        key: ${{ SSH_PRIVATE_KEY }}
+        script: |
+          sudo cp -r build/* /var/www/html
+          sudo systemctl restart nginx
