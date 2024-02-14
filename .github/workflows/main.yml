@@ -56,18 +56,18 @@ jobs:
     - name: Copy files to server  
       uses: appleboy/scp-action@master
       with:
-        host: ${{ SSH_HOST }}
-        username: ${{ SSH_USERNAME }}
-        key: ${{ SSH_PRIVATE_KEY }} 
+        host: ${{ SECRETS_HOST }}
+        username: ${{ SECRETS_USERNAME }}
+        key: ${{ SECRETS_PRIVATE_KEY }} 
         source: "build"
         target: "/home/ubuntu"
 
     - name: Ssh into the server
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ SSH_HOST }}
-        username: ${{ SSH_USERNAME }}
-        key: ${{ SSH_PRIVATE_KEY }}
+        host: ${{ SECRETS_HOST }}
+        username: ${{ SECRETS_USERNAME }}
+        key: ${{ SECRETS_PRIVATE_KEY }}
         script: |
           sudo cp -r build/* /var/www/html
           sudo systemctl restart nginx
