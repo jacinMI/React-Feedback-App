@@ -7,7 +7,20 @@ on:
     branches: [ main ]
       
 jobs:
+    test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with: 
+          name: react-app
+          path: build
+
+      - name: Run Shell script for testing
+        run: sh test.sh
+
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -29,19 +42,8 @@ jobs:
           name: react-app
           path: build           
 
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with: 
-          name: react-app
-          path: build
-
-      - name: Run Shell script for testing
-        run: sh test.sh
-
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
