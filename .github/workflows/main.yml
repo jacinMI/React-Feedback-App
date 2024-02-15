@@ -62,6 +62,7 @@ jobs:
         source: "build"
         target: "/home/ubuntu"
 
+    
     - name: Ssh into the server
       uses: appleboy/ssh-action@master
       with:
