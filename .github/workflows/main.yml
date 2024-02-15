@@ -30,7 +30,7 @@ jobs:
           path: build           
 
   test:
-  needs: build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
@@ -43,7 +43,7 @@ jobs:
         run: sh test.sh
 
   deploy:
-  needs: test
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
