@@ -40,7 +40,7 @@ jobs:
           path: build
 
       - name: Run Shell script for testing
-        run: sh test.sh
+        run: test.sh
 
   deploy:
     needs: test
